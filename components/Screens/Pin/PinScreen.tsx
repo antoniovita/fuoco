@@ -22,6 +22,7 @@ import { RootStackParamList } from 'tabs/types';
 import { useTheme } from 'hooks/useTheme';
 import { MAIN } from 'imageConstants';
 import { Avatar } from 'components/generalComps/Avatar';
+import { Poppins_500Medium } from '@expo-google-fonts/poppins';
 
 const { width } = Dimensions.get('window');
 const PIN_LENGTH = 6;
@@ -232,7 +233,7 @@ const PinScreen = () => {
             fontSize: 24,
             fontWeight: '700',
             color: colors.text,
-            fontFamily: "Poppins_600SemiBold",
+            fontFamily: "Poppins_500Medium",
             textAlign: 'center',
             marginBottom: 10
           }}>

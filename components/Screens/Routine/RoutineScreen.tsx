@@ -26,6 +26,7 @@ import { useNavigation } from '@react-navigation/native';
 import {getSwitchState, removeSwitchState, setSwitchState} from "../../../helpers/switchHelper"
 import { format } from 'date-fns';
 import { RoutineTask } from 'api/types/routineTaskTypes';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type WeekDay = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 type CategoryType = 'Trabalho' | 'Exercícios' | 'Saúde' | 'Estudos' | 'Casa' | 'Social' | 'Hobbie' | 'Outros';
@@ -435,7 +436,8 @@ const RoutineScreen: React.FC = () => {
                     fontSize: 20,
                     fontWeight: '500',
                     color: colors.text,
-                    flex: 1
+                    flex: 1,
+                    fontFamily: 'Poppins_400Regular'
                   }}>
                     {item.title}
                   </Text>
@@ -444,7 +446,8 @@ const RoutineScreen: React.FC = () => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Text style={{
                     color: colors.textMuted,
-                    fontSize: 14
+                    fontSize: 14,
+                    fontFamily: 'Poppins_400Regular'
                   }}>
                     {item.created_at ? new Date(item.created_at).toLocaleTimeString('pt-BR', { 
                       hour: '2-digit', 
@@ -455,7 +458,8 @@ const RoutineScreen: React.FC = () => {
                 
                 <Text style={{
                   color: colors.textMuted,
-                  fontSize: 12
+                  fontSize: 12,
+                  fontFamily: 'Poppins_400Regular'
                 }}>
                   Recorrente em {weekDays.length} dias
                 </Text>
@@ -489,7 +493,7 @@ const RoutineScreen: React.FC = () => {
           paddingTop: 16,
           backgroundColor: colors.secondary
         }}>
-          <Text style={{ color: colors.deleteActionIcon, fontSize: 14 }}>
+          <Text style={{ color: colors.deleteActionIcon, fontSize: 14, fontFamily: 'Poppins_400Regular'}}>
             Erro ao carregar tarefa
           </Text>
         </View>
@@ -505,7 +509,7 @@ const RoutineScreen: React.FC = () => {
         paddingTop: Platform.OS === 'android' ? 30 : 0
       }}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: colors.text, fontSize: 18 }}>
+          <Text style={{ color: colors.text, fontSize: 18, fontFamily: 'Poppins_400Regular' }}>
             Carregando rotinas...
           </Text>
         </View>
@@ -531,7 +535,8 @@ const RoutineScreen: React.FC = () => {
             color: colors.deleteAction, 
             fontSize: 18, 
             textAlign: 'center', 
-            marginTop: 16 
+            marginTop: 16,
+            fontFamily: 'Poppins_400Regular'
           }}>
             {error}
           </Text>
@@ -545,7 +550,7 @@ const RoutineScreen: React.FC = () => {
               borderRadius: 12
             }}
           >
-            <Text style={{ color: colors.onPrimary }}>
+            <Text style={{ color: colors.onPrimary, fontFamily: 'Poppins_400Regular'}}>
               Tentar novamente
             </Text>
           </Pressable>
@@ -560,28 +565,33 @@ const RoutineScreen: React.FC = () => {
       backgroundColor: colors.background,
       paddingTop: Platform.OS === 'android' ? 30 : 0
     }}>
-      
       <Pressable
-        onPress={() => openModal()}
         style={{
-          width: 50,
-          height: 50,
           position: 'absolute',
-          bottom: '6%',
+          bottom: 24,
           right: 24,
           zIndex: 20,
           borderRadius: 25,
-          backgroundColor: colors.primary,
           alignItems: 'center',
-          justifyContent: 'center',
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
+          justifyContent: 'center'
         }}
+        onPress={() => openModal()}
       >
-        <Feather name="plus" strokeWidth={3} size={32} color={colors.onPrimary} />
+        <LinearGradient
+          colors={[...(colors.linearGradient.primary as [string, string, ...string[]])]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ 
+            width: 50, 
+            height: 50, 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            borderRadius: 25,
+          }}
+        >
+          <Feather name="plus" strokeWidth={3} size={32} color={colors.onPrimary} />
+        </LinearGradient>
       </Pressable>
       
       <View style={{
@@ -599,7 +609,8 @@ const RoutineScreen: React.FC = () => {
           <Text style={{ 
             marginLeft: 4, 
             color: colors.text, 
-            fontSize: 16 
+            fontSize: 16,
+            fontFamily: 'Poppins_400Regular'
           }}>
             Voltar
           </Text>
@@ -610,7 +621,7 @@ const RoutineScreen: React.FC = () => {
           right: 0,
           alignItems: 'center'
         }}>
-          <Text style={{ color: colors.text, fontSize: 17 }}>
+          <Text style={{ color: colors.text, fontSize: 17, fontFamily: 'Poppins_400Regular' }}>
             Minha Rotina
           </Text>
         </View>
@@ -634,7 +645,7 @@ const RoutineScreen: React.FC = () => {
               backgroundColor: selectedDay === day ? colors.primary : colors.secondary
             }}
           >
-            <Text style={{
+            <Text style={{ fontFamily: 'Poppins_400Regular',
               color: selectedDay === day ? colors.onPrimary : colors.text
             }}>
               {day}
@@ -667,7 +678,8 @@ const RoutineScreen: React.FC = () => {
               color: colors.textMuted,
               fontSize: 18,
               marginTop: 16,
-              textAlign: 'center'
+              textAlign: 'center',
+              fontFamily: 'Poppins_400Regular'
             }}>
               Nenhuma rotina para {selectedDay}
             </Text>
@@ -675,7 +687,8 @@ const RoutineScreen: React.FC = () => {
               color: colors.textMuted,
               fontSize: 14,
               marginTop: 8,
-              textAlign: 'center'
+              textAlign: 'center',
+              fontFamily: 'Poppins_400Regular'
             }}>
               Crie novas tarefas para organizar sua rotina
             </Text>
@@ -697,7 +710,7 @@ const RoutineScreen: React.FC = () => {
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{
-              backgroundColor: colors.modalBackground,
+              backgroundColor: colors.tabBarBackground,
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
               padding: 24,
@@ -735,6 +748,7 @@ const RoutineScreen: React.FC = () => {
                     multiline
                     numberOfLines={3}
                     style={{
+                      fontFamily: 'Poppins_400Regular',
                       borderRadius: 12,
                       fontSize: 18,
                       paddingHorizontal: 4,
@@ -757,6 +771,7 @@ const RoutineScreen: React.FC = () => {
                     }}
                   >
                     <Text style={{
+                      fontFamily: 'Poppins_400Regular',
                       fontWeight: 'bold',
                       fontSize: 24,
                       color: selectedTime ? colors.text : colors.textMuted
@@ -784,6 +799,7 @@ const RoutineScreen: React.FC = () => {
                         }}
                       >
                         <Text style={{
+                          fontFamily: 'Poppins_400Regular',
                           color: selectedDaysOfWeek.includes(dayNumber)
                             ? colors.onPrimary
                             : colors.text
@@ -827,6 +843,7 @@ const RoutineScreen: React.FC = () => {
                           />
                           <Text 
                             style={{
+                              fontFamily: 'Poppins_400Regular',
                               fontSize: 14,
                               color: isSelected ? colors.onPrimary : colors.text
                             }}
@@ -867,6 +884,7 @@ const RoutineScreen: React.FC = () => {
                   }}
                 >
                   <Text style={{ 
+                    fontFamily: 'Poppins_400Regular',
                     color: colors.text, 
                     textAlign: 'center' 
                   }}>
@@ -883,6 +901,7 @@ const RoutineScreen: React.FC = () => {
                   }}
                 >
                   <Text style={{
+                    fontFamily: 'Poppins_400Regular',
                     color: colors.onPrimary,
                     textAlign: 'center'
                   }}>
