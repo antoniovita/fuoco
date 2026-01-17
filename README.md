@@ -1,83 +1,72 @@
 # Fuoco
 
-Aplicativo de produtividade feito em Expo/React Native com IA nativa (on-device) via `llama.rn`. O foco do Fuoco e ajudar o usuario a organizar rotina, tarefas, despesas e treinos com um assistente local que entende linguagem natural e automatiza registros.
+A productivity app built with Expo/React Native featuring native (on-device) AI via `llama.rn`. Fuoco’s goal is to help users organize their routines, tasks, expenses, and workouts through a local assistant that understands natural language and automates record-keeping.
 
-## O que o Fuoco faz
-- Assistente de produtividade dentro do app (chat) para organizar tarefas e despesas.
-- Agenda com tarefas, lembretes e notificacoes locais.
-- Controle de despesas e ganhos com categorizacao.
-- Treinos, rotinas recorrentes e timer para foco.
-- Sistema de progresso/XP e estatisticas do usuario.
-- PIN com biometria (Face ID/Touch ID quando disponivel).
+## What Fuoco Does
+- In-app productivity assistant (chat) to organize tasks and expenses.
+- Calendar with tasks, reminders, and local notifications.
+- Expense and income tracking with categorization.
+- Workouts, recurring routines, and a focus timer.
+- User progress/XP system and personal statistics.
+- PIN lock with biometrics (Face ID / Touch ID when available).
 
-## Principais telas e fluxos
-- **Welcome/Onboarding**: entrada do usuario e escolha de avatar.
-- **Pin**: bloqueio do app com SecureStore + biometria.
-- **Tabs principais**: Chat, Social, Agenda, Despesas e Treinos.
-- **Rotinas/Timer/Settings**: acesso via stack para configuracoes e utilitarios.
+## Main Screens and Flows
+- **Welcome / Onboarding**: user entry and avatar selection.
+- **PIN**: app lock using SecureStore + biometrics.
+- **Main Tabs**: Chat, Social, Calendar, Expenses, and Workouts.
+- **Routines / Timer / Settings**: accessed via stack navigation for configuration and utilities.
 
-## IA nativa com `llama.rn`
-O Fuoco roda IA **localmente** usando `llama.rn`, sem depender de servidor para gerar respostas.
+## On-device AI with `llama.rn`
+Fuoco runs AI **locally** using `llama.rn`, without relying on a server to generate responses.
 
-- **Modelo**: `google_gemma-3-1b-it` (GGUF `Q4_K_M`) baixado no primeiro uso.
-- **Armazenamento**: `DocumentDirectory/models` via `react-native-fs`.
-- **Bootstrap**: download com progresso e cache em `AsyncStorage`.
-- **Contexto**: `n_ctx: 2048`, `n_gpu_layers: 99` (efeito no iOS).
-- **Prompts**: sistema com avatars e estilo de resposta (arquivo `llm/systemPrompt.ts`).
+- **Model**: `google_gemma-3-1b-it` (GGUF `Q4_K_M`) downloaded on first use.
+- **Storage**: `DocumentDirectory/models` via `react-native-fs`.
+- **Bootstrap**: download with progress tracking and caching in `AsyncStorage`.
+- **Context**: `n_ctx: 2048`, `n_gpu_layers: 99` (effective on iOS).
+- **Prompts**: system prompts with avatars and response style (`llm/systemPrompt.ts`).
 
-## NLP e automacoes
-O chat identifica intentos e cria registros automaticamente:
-- **Tarefas**: extraidas por data/hora (chrono-node + compromise-dates).
-- **Despesas**: extraidas por valor e contexto financeiro (compromise + regex).
-- **Roteamento**: regras locais para decidir entre task, expense ou resposta geral.
+## NLP and Automations
+The chat identifies intents and automatically creates records:
+- **Tasks**: extracted with date/time (chrono-node + compromise-dates).
+- **Expenses**: extracted by amount and financial context (compromise + regex).
+- **Routing**: local rules decide between task, expense, or general response.
 
-## Armazenamento e dados
-Tudo e salvo localmente no dispositivo.
+## Storage and Data
+All data is stored locally on the device.
 
-- **SQLite (expo-sqlite)** com WAL e migracoes.
-- **SQLCipher** habilitado no iOS (via plugin).
-- **Tabelas principais**: `user`, `tasks`, `routine_tasks`, `expenses`, `workouts`, `notes`, `goals`, `category`.
-- **AsyncStorage**: historico do chat e metadata do modelo.
+- **SQLite (expo-sqlite)** with WAL and migrations.
+- **SQLCipher** enabled on iOS (via plugin).
+- **Main tables**: `user`, `tasks`, `routine_tasks`, `expenses`, `workouts`, `notes`, `goals`, `category`.
+- **AsyncStorage**: chat history and model metadata.
 - **SecureStore**: `user_id`, `user_name`, `user_pin`, avatar.
 
-## Notificacoes
-Tarefas agendadas recebem:
-- aviso no horario da tarefa
-- aviso 1 hora antes (se aplicavel)
+## Notifications
+Scheduled tasks receive:
+- a notification at the task time
+- a notification 1 hour before (when applicable)
 
-## Stack tecnico
+## Tech Stack
 - **Expo 53** + **React Native 0.79** + **React 19**
-- **Navegacao**: React Navigation (stack + bottom tabs)
+- **Navigation**: React Navigation (stack + bottom tabs)
 - **UI**: NativeWind + Styled Components + Moti + Reanimated
-- **IA local**: `llama.rn`
+- **Local AI**: `llama.rn`
 - **Data**: SQLite + AsyncStorage + SecureStore
-- **Utilitarios**: date-fns, chrono-node, compromise
+- **Utilities**: date-fns, chrono-node, compromise
 
-## Estrutura do projeto
-- `App.tsx`: bootstrap do app, fontes, DB, notificacoes e LLM.
-- `components/`: telas e componentes de UI.
-- `hooks/`: regras de negocio (tasks, expenses, stats, auth).
-- `database/`: setup, pragmas e migracoes do SQLite.
-- `llm/`: bootstrap do modelo e prompts de sistema.
-- `nlp/`: parsers de intent, data e despesas.
-- `tabs/`: navegacao principal.
+## Project Structure
+- `App.tsx`: app bootstrap, fonts, DB, notifications, and LLM.
+- `components/`: screens and UI components.
+- `hooks/`: business logic (tasks, expenses, stats, auth).
+- `database/`: SQLite setup, pragmas, and migrations.
+- `llm/`: model bootstrap and system prompts.
+- `nlp/`: intent, date, and expense parsers.
+- `tabs/`: main navigation.
 
 ## Scripts
 ```bash
 npm run start   # Expo dev server
-npm run ios     # build nativo iOS
-npm run android # build nativo Android
+npm run ios     # native iOS build
+npm run android # native Android build
 npm run web     # Expo Web
 npm run lint
 npm run format
-```
-
-## Requisitos locais
-- Node.js LTS
-- Expo CLI
-- Xcode (iOS) e/ou Android Studio (Android)
-
-## Observacoes
-- O primeiro uso baixa o modelo local; pode levar alguns minutos dependendo da rede.
-- O app nao depende de backend para o fluxo principal; dados ficam no dispositivo.
-
